@@ -61,7 +61,7 @@ class UserWorker:
     def login(self, login: str, password: str) -> User:
         hashed_password = hashlib.sha256(password.encode()).hexdigest()
         # Check if the user exists with the provided login and hashed password
-        user = self.userRepository.get_by_credentials(login, hashed_password)
+        user = self.userRepository.getByCredentials(login, hashed_password)
         if not user:
             return None
         
@@ -105,7 +105,7 @@ class UserWorker:
         return user
     
     def get_user_by_jwt_token(self, jwt_token: str) -> User:
-        user = self.userRepository.get_by_jwt_token(jwt_token)
+        user = self.userRepository.getByJwtToken(jwt_token)
         if not user:
             return None
         return user
