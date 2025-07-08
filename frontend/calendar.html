@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <script src="calendar.js"></script>
+
+    <style>
+        #calendar {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+        }
+        .WeekDayHeader {
+            font-weight: bold;
+            text-align: center;
+        }
+        .day-cell {
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            text-align: center;
+        }
+        .day-cell:hover {
+            background-color: #e0e0e0;
+            cursor: pointer;
+        }
+
+        .emptyDayCell {
+            background-color: transparent;
+            border: none;
+        }
+    </style>
+
+</head>
+<body onload="pageLoad()">
+    <h1>Welcome to the Dashboard</h1>
+    <p>This is the dashboard page where you can view your data and statistics.</p>
+    
+    <select name="room" id="roomSelect">
+        <option value="room1">Room 1</option>
+        <option value="room2">Room 2</option>
+        <option value="room3">Room 3</option>
+        <option value="room4">Room 4</option>
+        <option value="room5">Room 5</option>
+    </select>
+
+    <div id="calendar">
+        <div class="calendar-header">
+            <button id="prevMonth" onclick="previousMonth()">Previous</button>
+            <input type="hidden" id="currentMonth" value="01">
+            <input type="hidden" id="currentYear" value="2025">
+            <span id="currentMonthDisplay">January 2025</span>
+            <button id="nextMonth" onclick="nextMonth()">Next</button>
+        </div>
+        <div class="calendar-grid" id="calendarGrid">
+            <div class="WeekDayHeader">Sun</div>
+            <div class="WeekDayHeader">Mon</div>
+            <div class="WeekDayHeader">Tue</div>
+            <div class="WeekDayHeader">Wed</div>
+            <div class="WeekDayHeader">Thu</div>
+            <div class="WeekDayHeader">Fri</div>
+            <div class="WeekDayHeader">Sat</div>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2025 Your Company. All rights reserved.</p>
+    </footer>
+
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

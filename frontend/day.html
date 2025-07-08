@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day details</title>
+    <script src="day.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        #DayProgramGrid {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            grid-template-rows: auto;
+        }
+        .timeSlot {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .timeSlot:last-child {
+            border-bottom: none;
+        }
+        .timeSlot:hover {
+            background-color: #f9f9f9;
+            cursor: pointer;
+        }
+        .reserve{
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .reserve:hover {
+            background-color: #e0e0e0;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Day Details</h1>
+    <p>This page displays details for a specific day.</p>
+
+    <div id="DayProgramGrid">
+    </div>
+
+    <script>updateDayProgramGrid();</script>
+</body>
+</html>
