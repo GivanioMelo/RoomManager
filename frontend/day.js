@@ -3,6 +3,17 @@ reserves = [
     { startTime: 18, endTime: 22 }
 ];
 
+function pageLoad() {
+    // roomId = localStorage.getItem("roomId");
+    // if (!roomId) {window.location.href = "map.html"; return;}
+    // date = localStorage.getItem("selectedDate");
+    // if (!date) {window.location.href = "calendar.html"; return;}
+
+    //fetch reserves from the server
+
+    updateDayProgramGrid();
+}
+
 function updateDayProgramGrid() {
     const dayProgramGrid = document.getElementById("DayProgramGrid");
     dayProgramGrid.innerHTML = "";

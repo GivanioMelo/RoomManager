@@ -1,0 +1,45 @@
+#calendar {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 20px;
+}
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+}
+.WeekDayHeader {
+    font-weight: bold;
+    text-align: center;
+}
+.day-cell {
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    text-align: center;
+}
+.day-cell:hover {
+    background-color: #e0e0e0;
+    cursor: pointer;
+}
+
+.emptyDayCell {
+    background-color: transparent;
+    border: none;
+}
+
+.reserve {
+    background-color: rgba(0, 123, 255, 0.3); /* Light blue fill */
+    border: 1px solid #007bff; /* Blue stroke */
+    border-radius: 4px;
+    padding: 5px;
+    margin-top: 5px;
+}

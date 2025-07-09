@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map</title>
+    <div id="pinTooltip"></div>
+    <script src="roomsMap.js"></script>
+    <link rel="stylesheet" href="roomsMap.css">
+</head>
+<body onload="pageLoad()">
+    <div id="mainContainer">
+        <div id="gridMap">
+            <svg id="roomSvg">
+                <!-- Polygons will be added here by JS -->
+            </svg>
+        </div>
+        <div id="roomData">
+            <p><span id="roomName"></span></p>
+            <img src="assets/roomimage.png">
+            <p><span id="roomCapacity"></span></p>
+            <p><span id="roomDescription"></span></p>
+        </div>
+    </div>
+</body>
+</html>
