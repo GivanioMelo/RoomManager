@@ -1,11 +1,12 @@
 from entities.Entity import Entity
 
 class Room(Entity):
-    def __init__(self, id: str, name: str, description: str, capacity: int):
+    def __init__(self, id: str, name: str, description: str, capacity: int, location: str = ""):
         super().__init__(id)
         self.name = name
         self.description = description
         self.capacity = capacity
+        self.location = location
 
     def __repr__(self):
         return f"Room(id={self.id}, name={self.name}, description={self.description}, capacity={self.capacity})"

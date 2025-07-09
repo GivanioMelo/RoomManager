@@ -5,7 +5,7 @@ class User(Entity):
     email:str
     login:str
     password:str
-    jwtToken:str
+    token:str
     isAdmin:bool
     isActive:bool
 
@@ -15,12 +15,12 @@ class User(Entity):
         self.email = ""
         self.login = ""
         self.password = ""
-        self.jwtToken = ""
+        self.token = ""
         self.isAdmin = False
         self.isActive = True
     
     def __str__(self):
-        return f"User(id={self.id}, name={self.name}, email={self.email}, login={self.login}, password={self.password}, jwtToken={self.jwtToken}, isAdmin={self.isAdmin}, isActive={self.isActive})"
+        return f"User(id={self.id}, name={self.name}, email={self.email}, login={self.login}, password={self.password}, jwtToken={self.token}, isAdmin={self.isAdmin}, isActive={self.isActive})"
     def __repr__(self):
         return self.__str__()
     
@@ -31,7 +31,7 @@ class User(Entity):
             "email": self.email,
             "login": self.login,
             "password": self.password,
-            "jwtToken": self.jwtToken,
+            "token": self.token,
             "isAdmin": self.isAdmin,
             "isActive": self.isActive
         })
@@ -46,7 +46,7 @@ class User(Entity):
         user.email = data.get("email", "")
         user.login = data.get("login", "")
         user.password = data.get("password", "")
-        user.jwtToken = data.get("jwtToken", "")
+        user.token = data.get("token", "")
         user.isAdmin = data.get("isAdmin", False)
         user.isActive = data.get("isActive", True)
 

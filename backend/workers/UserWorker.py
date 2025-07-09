@@ -19,7 +19,7 @@ class UserWorker:
         user.email = email
         user.login = login
         user.password = password
-        user.jwtToken = ""
+        user.token = ""
         user.isAdmin = is_admin
         user.isActive = True
         user.creationUser = 1  # Assuming a default user ID for creation
@@ -71,13 +71,13 @@ class UserWorker:
             algorithm="HS256"
         )
         encryptedToken = bcrypt.hashpw(token.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
-        user.jwtToken = encryptedToken
+        user.token = encryptedToken
         
         user.updateUser = session.get('user_id', 1)
         user.updateDate = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         self.userRepository.update(user)
         session['user_id'] = user.id
-        session['jwt_token'] = user.jwtToken
+        session['jwt_token'] = user.token
         return user
     
     def logout(self) -> bool:
