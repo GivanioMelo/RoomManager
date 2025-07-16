@@ -200,3 +200,8 @@ cython_debug/
 #  They are not needed for the project to run and can be safely ignored.
 assets/
 tools/
+
+# Local configuration files
+#  These files are specific to the local environment and should not be included in the
+#  version control system.
+.config
