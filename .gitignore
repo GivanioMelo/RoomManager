@@ -205,4 +205,3 @@ tools/
 #  These files are specific to the local environment and should not be included in the
 #  version control system.
 *.config
-backend/repositories/database.config

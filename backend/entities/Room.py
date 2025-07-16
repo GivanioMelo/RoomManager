@@ -17,7 +17,7 @@ class Room(Entity):
     def __str__(self):
         return f"Room {self.name} (ID: {self.id}) - {self.description} (Capacity: {self.capacity})"
     
-    def to_dict(self):
+    def toDict(self):
         dict_repr = {
             "id": self.id,
             "name": self.name,
@@ -30,7 +30,7 @@ class Room(Entity):
         return dict_repr
     
     @classmethod
-    def from_dict(cls, data: dict):
+    def fromDict(cls, data: dict):
         return cls(
             id=data["id"],
             name=data["name"],

@@ -18,7 +18,7 @@ class Entity:
     def __repr__(self):
         return self.__str__()
     
-    def to_dict(self):
+    def toDict(self):
         return {
             "id": self.id,
             "creationUser": self.creationUserId,
@@ -28,7 +28,7 @@ class Entity:
         }
     
     @staticmethod
-    def from_dict(data):
+    def fromDict(data):
         entity = Entity()
         entity.id = data.get("id", 0)
         entity.creationUserId = data.get("creationUser", 0)

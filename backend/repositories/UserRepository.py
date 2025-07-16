@@ -10,12 +10,12 @@ class UserRepository(BaseRepository[User]):
         query = f"SELECT * FROM users WHERE login = '{login}' AND password = '{password}'"
         result = self.executeQuery(query)
         if result:
-            return User.from_dict(result[0])
+            return User.fromDict(result[0])
         return None
 
     def getByJwtToken(self, jwt_token: str) -> User:
         query = f"SELECT * FROM users WHERE jwtToken = '{jwt_token}'"
         result = self.executeQuery(query)
         if result:
-            return User.from_dict(result[0])
+            return User.fromDict(result[0])
         return None

@@ -1,24 +1,32 @@
 from entities.User import User
 from repositories.UserRepository import UserRepository
-from datetime import datetime
+from datetime import datetime, timedelta
 from flask import session
 
 import jwt
 import hashlib
 import bcrypt
+import json
+import os
 
 class UserWorker:
     userRepository: UserRepository
 
     def __init__(self):
+        self.jwtKey = json.load(open("app.config")).get('jwt_key', 'your_super_secret_jwt_key')
         self.userRepository = UserRepository()
     
-    def create_user(self, name: str, email: str, login: str, password: str, is_admin: bool = False) -> int:
+    def create_user(self,
+                    name: str,
+                    email: str,
+                    login: str,
+                    password: str,
+                    is_admin: bool = False) -> int:
         user = User()
         user.name = name
         user.email = email
         user.login = login
-        user.password = password
+        user.password = hashlib.sha256(password.encode()).hexdigest()  # Hashing the password
         user.token = ""
         user.isAdmin = is_admin
         user.isActive = True
@@ -29,10 +37,15 @@ class UserWorker:
         self.userRepository.create(user)
         return user.id
     
-    def update_user(self, user_id: int, name: str, email: str, login: str, password: str, is_admin: bool = False) -> bool:
+    def update_user(self,
+                    user_id: int,
+                    name: str,
+                    email: str,
+                    login: str,
+                    password: str,
+                    is_admin: bool = False) -> bool:
         user = self.userRepository.get_by_id(user_id)
-        if not user:
-            return False
+        if not user: return False
         user.name = name
         user.email = email
         user.login = login
@@ -64,10 +77,10 @@ class UserWorker:
         user = self.userRepository.getByCredentials(login, hashed_password)
         if not user:
             return None
-        
+        expiration_time = datetime.now() + timedelta(hours=1)  # Token valid for 1 hour
         token = jwt.encode(
-            {"user_id": user.id, "exp": datetime.utcnow().timestamp() + 3600},  # Token valid for 1 hour
-            "your_secret_key",  # Replace with your actual secret key
+            {"user_id": user.id, "exp": expiration_time},  # Token valid for 1 hour
+            self.jwtKey,  # Replace with your actual secret key
             algorithm="HS256"
         )
         encryptedToken = bcrypt.hashpw(token.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')

@@ -7,7 +7,7 @@ class Issue(Entity):
         self.description = description
         self.status = status
 
-    def to_dict(self):
+    def toDict(self):
         return {
             "id": self.id,
             "title": self.title,
@@ -18,7 +18,7 @@ class Issue(Entity):
         }
 
     @classmethod
-    def from_dict(cls, data):
+    def fromDict(cls, data):
         return cls(
             issue_id=data.get('id'),
             title=data.get('title'),

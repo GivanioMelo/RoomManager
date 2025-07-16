@@ -23,7 +23,7 @@ class Reserve(Entity):
     def __str__(self):
         return f"Reserve {self.id} - Room: {self.roomId}, User: {self.reservedForId}, Start: {self.startTime}, End: {self.endTime}"
     
-    def to_dict(self):
+    def toDict(self):
         dict_repr = {
             "id": self.id,
             "roomId": self.roomId,
@@ -38,7 +38,7 @@ class Reserve(Entity):
         return dict_repr
     
     @classmethod
-    def from_dict(cls, data: dict):
+    def fromDict(cls, data: dict):
         return cls(
             id=data["id"],
             roomId=data["roomId"],

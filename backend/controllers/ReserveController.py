@@ -13,7 +13,7 @@ def getAllRserves():
 def get_reserves_by_user(id):
     reserves = reserve_worker.getReservesByUser(id)
     if not reserves: return jsonify({"error": "No reserves found for this user"}), 404
-    return jsonify([reserve.to_dict() for reserve in reserves]), 200
+    return jsonify([reserve.toDict() for reserve in reserves]), 200
 
 @reserve_controller.route('/create', methods=['POST'])
 def create_reserve():
@@ -28,5 +28,5 @@ def create_reserve():
         end_time=data['endTime']
     )
     
-    if reserve: return jsonify(reserve.to_dict()), 201
+    if reserve: return jsonify(reserve.toDict()), 201
     else: return jsonify({"error": "Failed to create reserve"}), 500

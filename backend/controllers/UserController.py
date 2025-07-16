@@ -31,7 +31,7 @@ def create_user():
     if user_worker.user_repository.get_by_login(data.get('login')):
         return jsonify({"error": "Login already exists"}), 400
     
-    if not User.from_dict(data).is_valid():
+    if not User.fromDict(data).is_valid():
         return jsonify({"error": "Invalid user data"}), 400
     
     # Create user

@@ -11,7 +11,7 @@ class BaseRepository[T:Entity]():
     dataBasePassWord:str
 
     def __init__(self):
-        config = json.load(open('repositories/database.config'))
+        config = json.load(open('database.config'))
         self.dataBaseHostName = config.get("DB_HOST", "localhost")
         self.dataBasePort = config.get("DB_PORT", "3307")
         self.dataBaseName = config.get("DB_NAME", "default_db")
