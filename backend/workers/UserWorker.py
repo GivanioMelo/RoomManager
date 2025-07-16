@@ -22,18 +22,14 @@ class UserWorker:
                     login: str,
                     password: str,
                     is_admin: bool = False) -> int:
+        loggedUser = session.get('userId',1)
         user = User()
         user.name = name
         user.email = email
         user.login = login
         user.password = hashlib.sha256(password.encode()).hexdigest()  # Hashing the password
-        user.token = ""
-        user.isAdmin = is_admin
-        user.isActive = True
-        user.creationUserId = 1  # Assuming a default user ID for creation
-        user.creationDate = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        user.updateUserId = 1
-        user.updateDate = user.creationDate
+        user.creationUserId = loggedUser
+        user.updateUserId = loggedUser
         self.userRepository.create(user)
         return user.id
     

@@ -6,6 +6,18 @@ class UserRepository(BaseRepository[User]):
         super().__init__()
         self.tableName = 'users'
     
+    def create(self,user:User):
+        query = f"""
+            INSERT INTO {self.tableName} (login, password, name, email)
+            VALUES ('{user.login}', '{user.password}', '{user.name}', '{user.email}')
+        """
+        if user.creationUserId and user.updateUserId:
+            query = f"""
+                INSERT INTO {self.tableName} (login, password, name, email, creationUser, updateUser)
+                VALUES ('{user.login}', '{user.password}', '{user.name}', '{user.email}',{user.creationUserId}, {user.updateUserId})
+            """
+        self.executeNonQuery(query)
+
     def getByCredentials(self, login: str, password:str) -> User:
         query = f"SELECT * FROM users WHERE login = '{login}' AND password = '{password}'"
         result = self.executeQuery(query)
