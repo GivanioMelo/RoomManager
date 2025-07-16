@@ -3,12 +3,14 @@ import datetime
 from entities.Entity import Entity
 
 class Reserve(Entity):
-    def __init__(self, id: int, roomId, userId, startTime, endTime):
+    def __init__(self, id: int, roomId:int, userId:int, startTime:datetime, endTime:datetime, creationUser:int=None, updateUser:int=None):
         super().__init__(id=id)
         self.room = roomId # Assuming roomId is an integer representing the room ID
         self.reservedFor = userId # Assuming userId is an integer representing the user ID
         self.startTime = startTime
         self.endTime = endTime
+        self.creationUser = creationUser
+        self.updateUser = updateUser
 
     def __repr__(self):
         return f"Reserve(id={self.id}, roomId={self.room}, userId={self.reservedFor}, startTime={self.startTime}, endTime={self.endTime})"
@@ -34,23 +36,3 @@ class Reserve(Entity):
             startTime=data["startTime"],
             endTime=data["endTime"]
         )
-    
-    def isValid(self) -> bool:
-        dateFormat = "%Y-%m-%d %H:%M:%S"
-        try:
-            start = datetime.datetime.strptime(self.startTime, dateFormat)
-            end = datetime.datetime.strptime(self.endTime, dateFormat)
-        except ValueError: return False
-        if start >= end: return False
-        return True
-
-    def colision(self, other: 'Reserve') -> bool:
-        dateFormat = "%Y-%m-%d %H:%M:%S"
-        st0 = datetime.datetime.strptime(self.startTime, dateFormat)
-        st1 = datetime.datetime.strptime(other.startTime, dateFormat)
-        et0 = datetime.datetime.strptime(self.endTime, dateFormat)
-        et1 = datetime.datetime.strptime(other.endTime, dateFormat)
-
-        if self.room != other.room: return False
-        if et0 < st1 or et1 < st0: return False
-        return (((st0 >= st1 and st0 <= et1) or (et0 >= st1 and et0 <= et1)))

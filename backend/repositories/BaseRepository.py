@@ -32,10 +32,8 @@ class BaseRepository[T:Entity]():
         try:
             connection = self.connect()
             cursor = connection.cursor()
-            if values is None:
-                cursor.execute(command)
-            else:
-                cursor.execute(command, values)
+            if values is None: cursor.execute(command)
+            else: cursor.execute(command, values)
             connection.commit()
             connection.close()
         except mysql.connector.Error as err:
@@ -45,67 +43,12 @@ class BaseRepository[T:Entity]():
                 connection.close()
             raise err
 
-    def executeQuery(self, query:str):
+    def executeQuery(self, query:str, values:dict = None):
         connection = self.connect()
         cursor = connection.cursor()
-        cursor.execute(query)
+        if values is None: cursor.execute(query)
+        else: cursor.execute(query, values)
         result = cursor.fetchall()
         connection.commit()
         connection.close()
         return result
-    
-    def getById(self, id:int) -> T:
-        query = f"SELECT * FROM {self.tableName} WHERE id = {id}"
-        result = self.executeQuery(query)
-        if result:
-            return self.from_dict(result[0])
-        return None
-    
-    def getAll(self) -> list[T]:
-        query = f"SELECT * FROM {self.tableName}"
-        results = self.executeQuery(query)
-        return [self.from_dict(row) for row in results] if results else []
-    
-    def getAllPaged(self, page:int, page_size:int) -> list[T]:
-        offset = (page - 1) * page_size
-        query = f"SELECT * FROM {self.tableName} LIMIT %s OFFSET %s"
-        values = (page_size, offset)
-        results = self.executeQuery(query, values)
-        return [self.from_dict(row) for row in results] if results else []
-    
-    def create(self, entity:T):
-        command = f"""
-        INSERT INTO {self.tableName} ({', '.join(entity.__dict__.keys())})
-        VALUES ({', '.join(['%s'] * len(entity.__dict__))})
-        """
-        values = tuple(entity.__dict__.values())
-        self.execute(command, values)
-    
-    def update(self, entity:T):
-        set_clause = ', '.join([f"{key} = %s" for key in entity.__dict__.keys()])
-        command = f"""
-        UPDATE {self.tableName}
-        SET {set_clause}
-        WHERE id = %s
-        """
-        values = tuple(entity.__dict__.values()) + (entity.id,)
-        self.execute(command, values)
-    
-    def delete(self, id:int):
-        command = f"DELETE FROM {self.tableName} WHERE id = {id}"
-        self.execute(command)
-
-    def getByFilters(self, **filters) -> list[T]:
-        filter_clause = ' AND '.join([f"{key} = %s" for key in filters.keys()])
-        query = f"SELECT * FROM {self.tableName} WHERE {filter_clause}"
-        values = tuple(filters.values())
-        results = self.executeQuery(query, values)
-        return [self.from_dict(row) for row in results] if results else []
-    
-    def getPagedByFilters(self, page:int, page_size:int, **filters) -> list[T]:
-        offset = (page - 1) * page_size
-        filter_clause = ' AND '.join([f"{key} = %s" for key in filters.keys()])
-        query = f"SELECT * FROM {self.tableName} WHERE {filter_clause} LIMIT %s OFFSET %s"
-        values = tuple(filters.values()) + (page_size, offset)
-        results = self.executeQuery(query, values)
-        return [self.from_dict(row) for row in results] if results else []
