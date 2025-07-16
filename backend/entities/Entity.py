@@ -1,19 +1,19 @@
 class Entity:
     id: int
-    creationUser: int
+    creationUserId: int
     creationDate: str
-    updateUser: int
+    updateUserId: int
     updateDate: str
 
     def __init__(self, id=0, creationUser=0, creationDate="", updateUser=0, updateDate=""):
         self.id = id
-        self.creationUser = creationUser
+        self.creationUserId = creationUser
         self.creationDate = creationDate
-        self.updateUser =  updateUser
+        self.updateUserId =  updateUser
         self.updateDate = updateDate
     
     def __str__(self):
-        return f"Entity(id={self.id}, creationUser={self.creationUser}, creationDate={self.creationDate}, updateUser={self.updateUser}, updateDate={self.updateDate})"
+        return f"Entity(id={self.id}, creationUser={self.creationUserId}, creationDate={self.creationDate}, updateUser={self.updateUserId}, updateDate={self.updateDate})"
     
     def __repr__(self):
         return self.__str__()
@@ -21,9 +21,9 @@ class Entity:
     def to_dict(self):
         return {
             "id": self.id,
-            "creationUser": self.creationUser,
+            "creationUser": self.creationUserId,
             "creationDate": self.creationDate,
-            "updateUser": self.updateUser,
+            "updateUser": self.updateUserId,
             "updateDate": self.updateDate
         }
     
@@ -31,8 +31,8 @@ class Entity:
     def from_dict(data):
         entity = Entity()
         entity.id = data.get("id", 0)
-        entity.creationUser = data.get("creationUser", 0)
+        entity.creationUserId = data.get("creationUser", 0)
         entity.creationDate = data.get("creationDate", "")
-        entity.updateUser = data.get("updateUser", 0)
+        entity.updateUserId = data.get("updateUser", 0)
         entity.updateDate = data.get("updateDate", "")
         return entity

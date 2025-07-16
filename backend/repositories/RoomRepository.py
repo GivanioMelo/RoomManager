@@ -10,7 +10,7 @@ class RoomRepository(BaseRepository[Room]):
     def create(self, room: Room) -> Room:
         query = f"""
             INSERT INTO {self.tableName} (name, capacity, creationUser, updateUser)
-            VALUES ('{room.name}', {room.capacity}, {room.creationUser}, {room.updateUser});
+            VALUES ('{room.name}', {room.capacity}, {room.creationUserId}, {room.updateUserId});
         """
         print(f"Executing query: {query}")
         self.execute(query)
@@ -23,7 +23,7 @@ class RoomRepository(BaseRepository[Room]):
             VALUES
         """
         for room in rooms:
-            query += f"('{room.name}', {room.capacity}, {room.creationUser}, {room.updateUser}),"
+            query += f"('{room.name}', {room.capacity}, {room.creationUserId}, {room.updateUserId}),"
         query = query.rstrip(',') + ';'
         print(f"Executing query: {query}")
         self.execute(query)

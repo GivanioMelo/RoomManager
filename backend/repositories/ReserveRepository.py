@@ -12,12 +12,12 @@ class ReserveRepository(BaseRepository[Reserve]):
 			INSERT INTO {self.tableName}
 			(room, reservedFor, startDate, endDate, creationUser, updateUser)
 			VALUES (
-				{reserve.room},
-				{reserve.reservedFor},
+				{reserve.roomId},
+				{reserve.reservedForId},
 				'{reserve.startTime.strftime('%Y-%m-%d %H:%M:%S')}',
 				'{reserve.endTime.strftime('%Y-%m-%d %H:%M:%S')}',
-				{reserve.creationUser},
-				{reserve.updateUser});
+				{reserve.creationUserId},
+				{reserve.updateUserId});
 			"""
 		
 		print(f"Executing query: {query}")
@@ -32,12 +32,12 @@ class ReserveRepository(BaseRepository[Reserve]):
 		for reserve in reserves:
 			query += f"""
 			(
-				{reserve.room},
-				{reserve.reservedFor},
+				{reserve.roomId},
+				{reserve.reservedForId},
 				'{reserve.startTime.strftime("%Y-%m-%d %H:%M:%S")}',
 				'{reserve.endTime.strftime("%Y-%m-%d %H:%M:%S")}',
-				{reserve.creationUser},
-				{reserve.updateUser}),
+				{reserve.creationUserId},
+				{reserve.updateUserId}),
 			"""
 		query = query.rstrip(',') + ';'
 		print(f"Executing query: {query}")

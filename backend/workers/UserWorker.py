@@ -22,9 +22,9 @@ class UserWorker:
         user.token = ""
         user.isAdmin = is_admin
         user.isActive = True
-        user.creationUser = 1  # Assuming a default user ID for creation
+        user.creationUserId = 1  # Assuming a default user ID for creation
         user.creationDate = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        user.updateUser = 1
+        user.updateUserId = 1
         user.updateDate = user.creationDate
         self.userRepository.create(user)
         return user.id
@@ -73,7 +73,7 @@ class UserWorker:
         encryptedToken = bcrypt.hashpw(token.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
         user.token = encryptedToken
         
-        user.updateUser = session.get('user_id', 1)
+        user.updateUserId = session.get('user_id', 1)
         user.updateDate = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         self.userRepository.update(user)
         session['user_id'] = user.id

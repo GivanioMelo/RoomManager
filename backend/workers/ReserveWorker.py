@@ -1,10 +1,14 @@
 from datetime import datetime
 from repositories.ReserveRepository import ReserveRepository
+from repositories.RoomRepository import RoomRepository
+from repositories.UserRepository import UserRepository
 from entities.Reserve import Reserve
 
 class ReserveWorker:
     def __init__(self):
         self.reserve_repository = ReserveRepository()
+        self.room_repository = RoomRepository()
+        self.user_repository = UserRepository()
 
     def create_reserve(self, room_id:int, user_id:int, start_time:datetime, end_time:datetime, creation_user:int=None, update_user:int=None) -> Reserve:
         reserve = Reserve(0, room_id, user_id, start_time, end_time, creation_user,update_user)
@@ -19,11 +23,17 @@ class ReserveWorker:
     def get_all_reserves(self):
         return self.reserve_repository.get_all()
     
-    def get_reserves_by_user(self, user_id):
-        return self.reserve_repository.getRservesByUser(user_id)
+    def getReservesByUser(self, user_id):
+        reserves = self.reserve_repository.getRservesByUser(user_id)
+        for reserve in reserves:
+            reserve.roomData = self.room_repository.get_by_id(reserve.roomId)
+        return reserves
     
     def get_reserves_by_room(self, room_id):
-        return self.reserve_repository.getReservesByRoom(room_id)
+        reserves = self.reserve_repository.getReservesByRoom(room_id)
+        for reserve in reserves:
+            reserve.userData = self.user_repository.get_by_id(reserve.reservedForId)
+        return 
 
     def get_reserve_by_room_and_time(self, room_id, start_time, end_time):
         return self.reserve_repository.getReservesByRoomAndTime(room_id, start_time, end_time)
@@ -32,10 +42,10 @@ class ReserveWorker:
         isValid = True
         message = "Reservation is valid"
 
-        if not reserve.room or not reserve.reservedFor:
+        if not reserve.roomId or not reserve.reservedForId:
             isValid = False
             message = "Room and reservedFor cannot be empty"
-        if not isinstance(reserve.room, int) or not isinstance(reserve.reservedFor, int):
+        if not isinstance(reserve.roomId, int) or not isinstance(reserve.reservedForId, int):
             isValid = False
             message = "Room and reservedFor must be integers"
         if not isinstance(reserve.startTime, datetime) or not isinstance(reserve.endTime, datetime):

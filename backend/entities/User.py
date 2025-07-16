@@ -18,6 +18,9 @@ class User(Entity):
         self.token = ""
         self.isAdmin = False
         self.isActive = True
+
+        self.reserves = []  # Placeholder for reserves, to be populated later
+        self.issues = []  # Placeholder for issues, to be populated later
     
     def __str__(self):
         return f"User(id={self.id}, name={self.name}, email={self.email}, login={self.login}, isAdmin={self.isAdmin}, isActive={self.isActive})"
@@ -32,8 +35,10 @@ class User(Entity):
             "isAdmin": self.isAdmin,
             "isActive": self.isActive
         })
+        if self.reserves: data["reserves"] = [reserve.to_dict() for reserve in self.reserves]
+        if self.issues: data["issues"] = [issue.to_dict() for issue in self.issues]
         return data
-    
+
     @staticmethod
     def from_dict(data):
         user = User()
@@ -47,9 +52,9 @@ class User(Entity):
         user.isAdmin = data.get("isAdmin", False)
         user.isActive = data.get("isActive", True)
 
-        user.creationUser = data.get("creationUser", 0)
+        user.creationUserId = data.get("creationUser", 0)
         user.creationDate = data.get("creationDate", "")
-        user.updateUser = data.get("updateUser", 0)
+        user.updateUserId = data.get("updateUser", 0)
         user.updateDate = data.get("updateDate", "")
 
         return user
