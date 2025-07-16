@@ -1,6 +1,6 @@
 reserves = [
-    {user:'Alice', month:7, day: 15, startTime: 8, endTime: 12 },
-    {user:'Dave', month:7, day: 20, startTime: 18, endTime: 22 }
+    {user:'Alice', month:7, day: 9, startTime: "08:00", endTime: "12:00" },
+    {user:'Dave', month:7, day: 9, startTime: "18:00", endTime: "22:00" },
 ];
 
 function pageLoad() {

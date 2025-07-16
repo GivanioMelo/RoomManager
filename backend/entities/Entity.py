@@ -5,12 +5,12 @@ class Entity:
     updateUser: int
     updateDate: str
 
-    def __init__(self):
-        self.id = 0
-        self.creationUser = 0
-        self.creationDate = ""
-        self.updateUser = 0
-        self.updateDate = ""
+    def __init__(self, id=0, creationUser=0, creationDate="", updateUser=0, updateDate=""):
+        self.id = id
+        self.creationUser = creationUser
+        self.creationDate = creationDate
+        self.updateUser =  updateUser
+        self.updateDate = updateDate
     
     def __str__(self):
         return f"Entity(id={self.id}, creationUser={self.creationUser}, creationDate={self.creationDate}, updateUser={self.updateUser}, updateDate={self.updateDate})"

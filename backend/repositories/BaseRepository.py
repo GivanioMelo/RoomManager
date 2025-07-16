@@ -28,12 +28,22 @@ class BaseRepository[T:Entity]():
         database=self.dataBaseName)
         return connection
 
-    def execute(self, command:str):
-        connection = self.connect()
-        cursor = connection.cursor()
-        cursor.execute(command)
-        connection.commit()
-        connection.close()
+    def execute(self, command:str, values:dict = None):
+        try:
+            connection = self.connect()
+            cursor = connection.cursor()
+            if values is None:
+                cursor.execute(command)
+            else:
+                cursor.execute(command, values)
+            connection.commit()
+            connection.close()
+        except mysql.connector.Error as err:
+            print(f"Error: {err}")
+            if connection.is_connected():
+                connection.rollback()
+                connection.close()
+            raise err
 
     def executeQuery(self, query:str):
         connection = self.connect()

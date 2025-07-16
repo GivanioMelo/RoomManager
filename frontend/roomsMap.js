@@ -5,8 +5,8 @@
                 description: "A spacious conference room with a projector.",
                 location:"312,449 338,477 418,411 389,379",
                 reserves: [
-                    {id: 1, user: "Alice", date: "2023-10-01", time: "10:00-11:00"},
-                    {id: 2, user: "Bob", date: "2023-10-02", time: "14:00-15:00"}
+                    {id: 1, user: "Alice", date: "2023-07-09", time: "10:00-11:00"},
+                    {id: 2, user: "Dave", date: "2023-07-09", time: "14:00-15:00"}
                 ]
             },
             {   id: 1,

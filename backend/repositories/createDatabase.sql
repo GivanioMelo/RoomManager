@@ -52,3 +52,18 @@ CREATE TABLE IF NOT EXISTS `reserves` (
     FOREIGN KEY (`creationUser`) REFERENCES `users` (`id`),
     FOREIGN KEY (`updateUser`) REFERENCES `users` (`id`)
 );
+
+CREATE TABLE IF NOT EXISTS `issues` (
+    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `room` INT UNSIGNED NOT NULL,
+    `type` varchar(40) NOT NULL,    
+    `description` varchar(300) NOT NULL,
+	`creationUser` INT UNSIGNED DEFAULT NULL,
+    `updateUser` INT UNSIGNED DEFAULT NULL,
+    `creationDate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updateTime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`room`) REFERENCES `rooms` (`id`) ON DELETE CASCADE,
+    FOREIGN KEY (`creationUser`) REFERENCES `users` (`id`),
+    FOREIGN KEY (`updateUser`) REFERENCES `users` (`id`)
+);

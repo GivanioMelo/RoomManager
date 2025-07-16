@@ -20,7 +20,7 @@ class User(Entity):
         self.isActive = True
     
     def __str__(self):
-        return f"User(id={self.id}, name={self.name}, email={self.email}, login={self.login}, password={self.password}, jwtToken={self.token}, isAdmin={self.isAdmin}, isActive={self.isActive})"
+        return f"User(id={self.id}, name={self.name}, email={self.email}, login={self.login}, isAdmin={self.isAdmin}, isActive={self.isActive})"
     def __repr__(self):
         return self.__str__()
     
@@ -29,9 +29,6 @@ class User(Entity):
         data.update({
             "name": self.name,
             "email": self.email,
-            "login": self.login,
-            "password": self.password,
-            "token": self.token,
             "isAdmin": self.isAdmin,
             "isActive": self.isActive
         })

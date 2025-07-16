@@ -3,28 +3,26 @@ import datetime
 from entities.Entity import Entity
 
 class Reserve(Entity):
-    def __init__(self, id: int, roomId, userId, startTime, endTime, confirmed=False, ):
-        super().__init__(id)
-        self.roomId = roomId
-        self.userId = userId
+    def __init__(self, id: int, roomId, userId, startTime, endTime):
+        super().__init__(id=id)
+        self.room = roomId # Assuming roomId is an integer representing the room ID
+        self.reservedFor = userId # Assuming userId is an integer representing the user ID
         self.startTime = startTime
         self.endTime = endTime
-        self.confirmed = confirmed
 
     def __repr__(self):
-        return f"Reserve(id={self.id}, roomId={self.roomId}, userId={self.userId}, startTime={self.startTime}, endTime={self.endTime}, confirmed={self.confirmed})"
+        return f"Reserve(id={self.id}, roomId={self.room}, userId={self.reservedFor}, startTime={self.startTime}, endTime={self.endTime})"
     
     def __str__(self):
-        return f"Reserve {self.id} - Room: {self.roomId}, User: {self.userId}, Start: {self.startTime}, End: {self.endTime}, Confirmed: {self.confirmed}"
+        return f"Reserve {self.id} - Room: {self.room}, User: {self.reservedFor}, Start: {self.startTime}, End: {self.endTime}"
     
     def to_dict(self):
         return {
             "id": self.id,
-            "roomId": self.roomId,
-            "userId": self.userId,
+            "roomId": self.room,
+            "userId": self.reservedFor,
             "startTime": self.startTime,
-            "endTime": self.endTime,
-            "confirmed": self.confirmed
+            "endTime": self.endTime
         }
     
     @classmethod
@@ -34,8 +32,7 @@ class Reserve(Entity):
             roomId=data["roomId"],
             userId=data["userId"],
             startTime=data["startTime"],
-            endTime=data["endTime"],
-            confirmed=data.get("confirmed", False)
+            endTime=data["endTime"]
         )
     
     def isValid(self) -> bool:
@@ -54,6 +51,6 @@ class Reserve(Entity):
         et0 = datetime.datetime.strptime(self.endTime, dateFormat)
         et1 = datetime.datetime.strptime(other.endTime, dateFormat)
 
-        if self.roomId != other.roomId: return False
+        if self.room != other.room: return False
         if et0 < st1 or et1 < st0: return False
         return (((st0 >= st1 and st0 <= et1) or (et0 >= st1 and et0 <= et1)))
