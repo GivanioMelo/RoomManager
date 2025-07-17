@@ -62,3 +62,10 @@ body {
     stroke: #0056b3; /* Darker stroke on hover */
     stroke-width: 3; /* Thicker stroke on hover */
 }
+
+.roomimage{
+    width: 300px;
+    height: 300px;
+    overflow: hidden;
+    border-radius: 50%;
+}
