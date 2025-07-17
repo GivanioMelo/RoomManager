@@ -1,27 +1,27 @@
 from flask import Blueprint, jsonify, request
 from workers.ReserveWorker import ReserveWorker
 
-reserve_controller = Blueprint('reserve_controller', __name__)
-reserve_worker = ReserveWorker()
+reserveController = Blueprint('reserveController', __name__)
+reserveWorker = ReserveWorker()
 
-@reserve_controller.route('/getAll', methods=['GET'])
+@reserveController.route('/getAll', methods=['GET'])
 def getAllRserves():
-    reserves = reserve_worker.get_all_reserves()
+    reserves = reserveWorker.getAll()
     return jsonify([reserve.to_dict() for reserve in reserves]), 200
 
-@reserve_controller.route('byUser/<int:id>', methods=['GET'])
-def get_reserves_by_user(id):
-    reserves = reserve_worker.getReservesByUser(id)
+@reserveController.route('byUser/<int:id>', methods=['GET'])
+def getReservesByUser(id):
+    reserves = reserveWorker.getReservesByUser(id)
     if not reserves: return jsonify({"error": "No reserves found for this user"}), 404
     return jsonify([reserve.toDict() for reserve in reserves]), 200
 
-@reserve_controller.route('/create', methods=['POST'])
-def create_reserve():
+@reserveController.route('/create', methods=['POST'])
+def createReserve():
     data = request.json
     if not data or 'roomId' not in data or 'userId' not in data or 'startTime' not in data or 'endTime' not in data:
         return jsonify({"error": "Missing required fields"}), 400
     
-    reserve = reserve_worker.create_reserve(
+    reserve = reserveWorker.create(
         room_id=data['roomId'],
         user_id=data['userId'],
         start_time=data['startTime'],

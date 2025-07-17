@@ -54,12 +54,12 @@ class ReserveRepository(BaseRepository[Reserve]):
 		reserves = [Reserve.fromDict(record) for record in result]
 		return reserves
 	
-	def getReservesByRoomAndTime(self, room_id: int, start_time: datetime, end_time: datetime) -> list[Reserve]:
-		start = start_time.strftime("%Y-%m-%d %H:%M:%S")
-		end = end_time.strftime("%Y-%m-%d %H:%M:%S")
+	def getByRoomAndTime(self, roomId: int, startTime: datetime.datetime, endTime: datetime.datetime) -> list[Reserve]:
+		start = startTime.strftime("%Y-%m-%d %H:%M:%S")
+		end = endTime.strftime("%Y-%m-%d %H:%M:%S")
 
 		query = f"""
-		SELECT * FROM {self.tableName} WHERE room = {room_id} 
+		SELECT * FROM {self.tableName} WHERE room = {roomId} 
 		AND (
 			(startDate >= '{start}' AND endDate <= '{end}') OR 
 			(startDate <= '{start}' AND endDate >= '{end}') OR 

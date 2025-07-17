@@ -2,10 +2,11 @@ from flask import Blueprint, jsonify, request
 from workers.UserWorker import UserWorker
 from entities.User import User
 
-user_controller = Blueprint('user_controller', __name__)
-user_worker = UserWorker()
+userController = Blueprint('user_controller', __name__)
+userWorker = UserWorker()
 
-def validate_user_data(data):
+#TODO mover isso aqui pro worker, onde é o lugar de lógica
+def validateUser(data):
     required_fields = ['name', 'email', 'login', 'password']
     for field in required_fields:
         if field not in data or not data[field]:
@@ -18,35 +19,39 @@ def validate_user_data(data):
         return False, "isAdmin must be a boolean value"
     return True, ""
 
-@user_controller.route('/create', methods=['POST'])
-def create_user():
+@userController.route('/create', methods=['POST'])
+def createUser():
     data = request.json
-    is_valid, error_message = validate_user_data(data)
+    is_valid, error_message = validateUser(data)
     if not is_valid:
         return jsonify({"error": error_message}), 400
+
+    #TODO refazer respeitando as camadas    
+    # if userWorker.user_repository.get_by_email(data.get('email')):
+    #     return jsonify({"error": "Email already exists"}), 400
     
-    if user_worker.user_repository.get_by_email(data.get('email')):
-        return jsonify({"error": "Email already exists"}), 400
-    
-    if user_worker.user_repository.get_by_login(data.get('login')):
-        return jsonify({"error": "Login already exists"}), 400
+    # if userWorker.user_repository.get_by_login(data.get('login')):
+    #     return jsonify({"error": "Login already exists"}), 400
     
     if not User.fromDict(data).is_valid():
         return jsonify({"error": "Invalid user data"}), 400
     
     # Create user
-    user_id = user_worker.create_user(
+    userId = userWorker.create(
         name=data.get('name'),
         email=data.get('email'),
         login=data.get('login'),
         password=data.get('password'),
         is_admin=data.get('isAdmin', False)
     )
-    return jsonify({"user_id": user_id}), 201
+    return jsonify({"userId": userId}), 201
 
-@user_controller.route('/login', methods=['POST'])
-def login_user(login, password):
-    user = user_worker.user_repository.get_by_login(login, password)
+@userController.route('/login', methods=['POST'])
+def loginUser():
+    data = request.json
+    login = data.get("login")
+    password = data.get("password")
+    user = userWorker.login(login,password)
     if not user:
-        return None
-    return user
+        return None, 401
+    return jsonify({"userId": user.id, "token":user.token}), 200

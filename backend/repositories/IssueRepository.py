@@ -13,14 +13,20 @@ class IssueRepository(BaseRepository[Issue]):
         """
         print(f"Executing query: {query}")
         self.execute(query)
-        issue.id = self.get_last_insert_id()
         return issue
     
-    def get_all(self) -> list[Issue]:
+    def getAll(self) -> list[Issue]:
         query = f"SELECT * FROM {self.tableName}"
         return self.executeQuery(query)
     
-    def get_by_id(self, issue_id: int) -> Issue:
-        query = f"SELECT * FROM {self.tableName} WHERE id = {issue_id}"
+    def getById(self, id: int) -> Issue:
+        query = f"SELECT * FROM {self.tableName} WHERE id = {id}"
         result = self.executeQuery(query)
-        return result[0] if result else None
+        if len(result): return Issue.fromDict(result[0])
+        else: return None
+    
+    def getByUser(self, userId) ->list[Issue]:
+        query = f"SELECT * FROM {self.tableName} WHERE creationUser = {userId}"
+        result = self.executeQuery(query)
+        if len(result): return [Issue.fromDict(record) for record in result]
+        else: return []

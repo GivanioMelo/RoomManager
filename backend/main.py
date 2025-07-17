@@ -2,15 +2,15 @@ from flask import Flask, jsonify,blueprints
 from flask_cors import CORS
 import TextUtils
 
-from controllers.UserController import user_controller
-from controllers.RoomController import room_controller
-from controllers.ReserveController import reserve_controller
+from controllers.UserController import userController
+from controllers.RoomController import roomController
+from controllers.ReserveController import reserveController
 
 api = Flask(__name__)
 
-api.register_blueprint(user_controller, url_prefix='/api/users')
-api.register_blueprint(room_controller, url_prefix='/api/rooms')
-api.register_blueprint(reserve_controller, url_prefix='/api/reserves')
+api.register_blueprint(userController, url_prefix='/api/users')
+api.register_blueprint(roomController, url_prefix='/api/rooms')
+api.register_blueprint(reserveController, url_prefix='/api/reserves')
 
 CORS(api)
 

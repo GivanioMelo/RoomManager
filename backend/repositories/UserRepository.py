@@ -33,7 +33,7 @@ class UserRepository(BaseRepository[User]):
             return User.fromDict(result[0])
         return None
 
-    def getByJwtToken(self, jwt_token: str) -> User:
+    def getByToken(self, jwt_token: str) -> User:
         query = f"SELECT * FROM users WHERE jwtToken = '{jwt_token}'"
         result = self.executeQuery(query)
         if result:

@@ -4,7 +4,7 @@ from repositories.RoomRepository import RoomRepository
 from entities.Room import Room
 from entities.Reserve import Reserve
 
-from datetime import datetime
+import datetime
 from entities.User import User
 
 class RoomWorker:
@@ -13,20 +13,22 @@ class RoomWorker:
         self.reserveRepository = ReserveRepository()
         self.userRepository = UserRepository()
 
-    def create_room(self, name: str, capacity: int) -> Room:
+    def create(self, name: str, capacity: int) -> Room:
         room = Room(0, name, capacity)
         return self.roomRepository.create(room)
 
-    def get_all_rooms(self) -> list[Room]:
+    def getAll(self) -> list[Room]:
         rooms = self.roomRepository.getAll()
+        startTime = datetime.datetime.today()
+        endTime = startTime + datetime.timedelta(hours=23,minutes=59)
         for room in rooms:
-            room.reserves = self.reserveRepository.getReservesByRoom(room_id=room.id)
+            room.reserves = self.reserveRepository.getByRoomAndTime(room.id,startTime,endTime)
             for reserve in room.reserves:
                 reserve.userData = self.userRepository.getById(reserve.reservedForId)
         return rooms
 
-    def get_room_by_id(self, room_id: int) -> Room:
-        return self.roomRepository.getById(room_id)
+    def getById(self, roomId: int) -> Room:
+        return self.roomRepository.getById(roomId)
 
-    def get_rooms_by_user_reservations(self, user_id: int) -> list[Room]:
-        return self.roomRepository.getByUserReservations(user_id)
+    def getByUserReservations(self, userId: int) -> list[Room]:
+        return self.roomRepository.getByUserReservations(userId)

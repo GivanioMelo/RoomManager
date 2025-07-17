@@ -16,7 +16,7 @@ class UserWorker:
         self.jwtKey = json.load(open("app.config")).get('jwt_key', 'your_super_secret_jwt_key')
         self.userRepository = UserRepository()
     
-    def create_user(self,
+    def create(self,
                     name: str,
                     email: str,
                     login: str,
@@ -33,7 +33,7 @@ class UserWorker:
         self.userRepository.create(user)
         return user.id
     
-    def update_user(self,
+    def update(self,
                     user_id: int,
                     name: str,
                     email: str,
@@ -54,14 +54,14 @@ class UserWorker:
         self.userRepository.update(user)
         return True
     
-    def delete_user(self, user_id: int) -> bool:
+    def delete(self, user_id: int) -> bool:
         user = self.userRepository.get_by_id(user_id)
         if not user:
             return False
         self.userRepository.delete(user_id)
         return True
 
-    def get_user_by_id(self, user_id: int) -> User:
+    def getById(self, user_id: int) -> User:
         user = self.userRepository.get_by_id(user_id)
         if not user:
             return None
@@ -103,18 +103,18 @@ class UserWorker:
             return True
         return False
     
-    def get_all_users(self) -> list[User]:
+    def getAll(self) -> list[User]:
         users = self.userRepository.get_all()
         return users
     
-    def get_user_by_email(self, email: str) -> User:
+    def getByEmail(self, email: str) -> User:
         user = self.userRepository.get_by_email(email)
         if not user:
             return None
         return user
     
-    def get_user_by_jwt_token(self, jwt_token: str) -> User:
-        user = self.userRepository.getByJwtToken(jwt_token)
+    def getByToken(self, token: str) -> User:
+        user = self.userRepository.getByToken(token)
         if not user:
             return None
         return user
