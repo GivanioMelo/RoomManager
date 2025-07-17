@@ -1,6 +1,11 @@
+from entities.Issue import Issue
+from entities.Reserve import Reserve
 from entities.Entity import Entity
 
 class Room(Entity):
+    issues:list[Issue]
+    reserves:list[Reserve]
+    
     def __init__(self, id: str, name: str, description: str, capacity: int, location: str = ""):
         super().__init__(id)
         self.name = name
@@ -25,15 +30,18 @@ class Room(Entity):
             "capacity": self.capacity
         }
         if self.location: dict_repr["location"] = self.location
-        if self.reserves: dict_repr["reserves"] = [reserve.to_dict() for reserve in self.reserves]
-        if self.issues: dict_repr["issues"] = [issue.to_dict() for issue in self.issues]
+        if self.reserves: dict_repr["reserves"] = [reserve.toDict() for reserve in self.reserves]
+        if self.issues: dict_repr["issues"] = [issue.toDict() for issue in self.issues]
+        print(dict_repr)
         return dict_repr
     
     @classmethod
     def fromDict(cls, data: dict):
+        # print(data)
         return cls(
             id=data["id"],
             name=data["name"],
             description=data["description"],
-            capacity=data["capacity"]
+            capacity=data["capacity"],
+            location=data["location"]
         )

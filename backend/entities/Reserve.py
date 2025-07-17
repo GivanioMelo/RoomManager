@@ -3,12 +3,12 @@ import datetime
 from entities.Entity import Entity
 
 class Reserve(Entity):
-    def __init__(self, id: int, roomId:int, userId:int, startTime:datetime, endTime:datetime, creationUserId:int=None, updateUserId:int=None):
+    def __init__(self, id: int, roomId:int, reservedForId:int, startDate:datetime, endDate:datetime, creationUserId:int=None, updateUserId:int=None):
         super().__init__(id=id)
         self.roomId = roomId # Assuming roomId is an integer representing the room ID
-        self.reservedForId = userId # Assuming userId is an integer representing the user ID
-        self.startTime = startTime
-        self.endTime = endTime
+        self.reservedForId = reservedForId # Assuming userId is an integer representing the user ID
+        self.startDate = startDate
+        self.endDate = endDate
         self.creationUserId = creationUserId
         self.updateUserId = updateUserId
 
@@ -18,31 +18,31 @@ class Reserve(Entity):
         self.updateUserData = None  # Placeholder for update user data, to be populated later
 
     def __repr__(self):
-        return f"Reserve(id={self.id}, roomId={self.roomId}, userId={self.reservedForId}, startTime={self.startTime}, endTime={self.endTime})"
+        return f"Reserve(id={self.id}, roomId={self.roomId}, userId={self.reservedForId}, startTime={self.startDate}, endTime={self.endDate})"
     
     def __str__(self):
-        return f"Reserve {self.id} - Room: {self.roomId}, User: {self.reservedForId}, Start: {self.startTime}, End: {self.endTime}"
+        return f"Reserve {self.id} - Room: {self.roomId}, User: {self.reservedForId}, Start: {self.startDate}, End: {self.endDate}"
     
     def toDict(self):
         dict_repr = {
             "id": self.id,
             "roomId": self.roomId,
-            "userId": self.reservedForId,
-            "startTime": self.startTime,
-            "endTime": self.endTime
+            "reservedForId": self.reservedForId,
+            "startTime": self.startDate,
+            "endTime": self.endDate
         }
-        if self.roomData: dict_repr["roomData"] = self.roomData.to_dict()
-        if self.userData: dict_repr["userData"] = self.userData.to_dict()
-        if self.creationUserData: dict_repr["creationUserData"] = self.creationUserData.to_dict()
-        if self.updateUserData: dict_repr["updateUserData"] = self.updateUserData.to_dict()
+        if self.roomData: dict_repr["roomData"] = self.roomData.toDict()
+        if self.userData: dict_repr["userData"] = self.userData.toDict()
+        if self.creationUserData: dict_repr["creationUserData"] = self.creationUserData.toDict()
+        if self.updateUserData: dict_repr["updateUserData"] = self.updateUserData.toDict()
         return dict_repr
     
     @classmethod
     def fromDict(cls, data: dict):
         return cls(
             id=data["id"],
-            roomId=data["roomId"],
-            userId=data["userId"],
-            startTime=data["startTime"],
-            endTime=data["endTime"]
+            roomId=data["room"],
+            reservedForId=data["reservedFor"],
+            startDate=data["startDate"],
+            endDate=data["endDate"]
         )

@@ -14,8 +14,8 @@ class ReserveRepository(BaseRepository[Reserve]):
 			VALUES (
 				{reserve.roomId},
 				{reserve.reservedForId},
-				'{reserve.startTime.strftime('%Y-%m-%d %H:%M:%S')}',
-				'{reserve.endTime.strftime('%Y-%m-%d %H:%M:%S')}',
+				'{reserve.startDate.strftime('%Y-%m-%d %H:%M:%S')}',
+				'{reserve.endDate.strftime('%Y-%m-%d %H:%M:%S')}',
 				{reserve.creationUserId},
 				{reserve.updateUserId});
 			"""
@@ -34,8 +34,8 @@ class ReserveRepository(BaseRepository[Reserve]):
 			(
 				{reserve.roomId},
 				{reserve.reservedForId},
-				'{reserve.startTime.strftime("%Y-%m-%d %H:%M:%S")}',
-				'{reserve.endTime.strftime("%Y-%m-%d %H:%M:%S")}',
+				'{reserve.startDate.strftime("%Y-%m-%d %H:%M:%S")}',
+				'{reserve.endDate.strftime("%Y-%m-%d %H:%M:%S")}',
 				{reserve.creationUserId},
 				{reserve.updateUserId}),
 			"""
@@ -43,12 +43,16 @@ class ReserveRepository(BaseRepository[Reserve]):
 		print(f"Executing query: {query}")
 
 	def getReservesByRoom(self, room_id: int) -> list[Reserve]:
-		query = f"SELECT * FROM {self.tableName} WHERE room_id = {room_id}"
-		return self.executeQuery(query)
+		query = f"SELECT * FROM {self.tableName} WHERE room = {room_id}"
+		result = self.executeQuery(query)
+		reserves = [Reserve.fromDict(record) for record in result]
+		return reserves
 	
 	def getRservesByUser(self, user_id: int) -> list[Reserve]:
-		query = f"SELECT * FROM {self.tableName} WHERE user_id = {user_id}"
-		return self.executeQuery(query)
+		query = f"SELECT * FROM {self.tableName} WHERE reservedFor = {user_id}"
+		result = self.executeQuery(query)
+		reserves = [Reserve.fromDict(record) for record in result]
+		return reserves
 	
 	def getReservesByRoomAndTime(self, room_id: int, start_time: datetime, end_time: datetime) -> list[Reserve]:
 		start = start_time.strftime("%Y-%m-%d %H:%M:%S")
@@ -63,4 +67,6 @@ class ReserveRepository(BaseRepository[Reserve]):
 			(startDate >= '{start}' AND startDate <= '{end}' AND endDate >= '{end}')
 		);
 		"""
-		return self.executeQuery(query)
+		result = self.executeQuery(query)
+		reserves = [Reserve.fromDict(record) for record in result]
+		return reserves

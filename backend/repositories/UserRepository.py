@@ -18,8 +18,16 @@ class UserRepository(BaseRepository[User]):
             """
         self.executeNonQuery(query)
 
+    def getById(self, id:int):
+        query = f"SELECT * FROM {self.tableName} WHERE id = '{id}'"
+        result = self.executeQuery(query)
+        if result:
+            return User.fromDict(result[0])
+        return None
+
+
     def getByCredentials(self, login: str, password:str) -> User:
-        query = f"SELECT * FROM users WHERE login = '{login}' AND password = '{password}'"
+        query = f"SELECT * FROM {self.tableName} WHERE login = '{login}' AND password = '{password}'"
         result = self.executeQuery(query)
         if result:
             return User.fromDict(result[0])

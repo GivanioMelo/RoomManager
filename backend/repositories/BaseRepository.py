@@ -45,7 +45,7 @@ class BaseRepository[T:Entity]():
 
     def executeQuery(self, query:str, values:dict = None):
         connection = self.connect()
-        cursor = connection.cursor()
+        cursor = connection.cursor(dictionary=True)
         if values is None: cursor.execute(query)
         else: cursor.execute(query, values)
         result = cursor.fetchall()

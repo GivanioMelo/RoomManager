@@ -48,13 +48,13 @@ class ReserveWorker:
         if not isinstance(reserve.roomId, int) or not isinstance(reserve.reservedForId, int):
             isValid = False
             message = "Room and reservedFor must be integers"
-        if not isinstance(reserve.startTime, datetime) or not isinstance(reserve.endTime, datetime):
+        if not isinstance(reserve.startDate, datetime) or not isinstance(reserve.endDate, datetime):
             isValid = False
             message = "Start time and end time must be datetime objects"
-        if reserve.startTime >= reserve.endTime:
+        if reserve.startDate >= reserve.endDate:
             isValid = False
             message = "Start time must be before end time"
-        if reserve.startTime < datetime.now():
+        if reserve.startDate < datetime.now():
             isValid = False
             message = "Start time cannot be in the past"
 

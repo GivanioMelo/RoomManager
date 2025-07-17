@@ -30,7 +30,9 @@ class RoomRepository(BaseRepository[Room]):
     
     def getAll(self) -> list[Room]:
         query = f"SELECT * FROM {self.tableName}"
-        return self.executeQuery(query)
+        data = self.executeQuery(query)
+        rooms = [Room.fromDict(record) for record in data]
+        return rooms
     
     def getById(self, roomId: int) -> Room:
         query = f"SELECT * FROM {self.tableName} WHERE id = {roomId}"
