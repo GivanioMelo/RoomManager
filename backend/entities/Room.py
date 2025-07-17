@@ -6,13 +6,13 @@ class Room(Entity):
     issues:list[Issue]
     reserves:list[Reserve]
     
-    def __init__(self, id: str, name: str, description: str, capacity: int, location: str = ""):
+    def __init__(self, id: str, name: str, description: str, capacity: int, location: str = "", color:str="#88888888"):
         super().__init__(id)
         self.name = name
         self.description = description
         self.capacity = capacity
         self.location = location
-
+        self.color = color
         self.reserves = []  # Placeholder for reserves, to be populated later
         self.issues = []  # Placeholder for issues, to be populated later
 
@@ -27,7 +27,8 @@ class Room(Entity):
             "id": self.id,
             "name": self.name,
             "description": self.description,
-            "capacity": self.capacity
+            "capacity": self.capacity,
+            "color": self.color
         }
         if self.location: dict_repr["location"] = self.location
         if self.reserves: dict_repr["reserves"] = [reserve.toDict() for reserve in self.reserves]
@@ -43,5 +44,6 @@ class Room(Entity):
             name=data["name"],
             description=data["description"],
             capacity=data["capacity"],
-            location=data["location"]
+            location=data["location"],
+            color = data["color"]
         )

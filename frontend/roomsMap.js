@@ -4,6 +4,7 @@
         document.getElementById('roomName').textContent = room.name;
         document.getElementById('roomCapacity').textContent = room.capacity;
         document.getElementById('roomDescription').textContent = room.description;
+        document.getElementById("roomName").style.backgroundColor = room.color;
         // Se quiser trocar a imagem, pode adicionar um campo image em room e trocar aqui
         // document.querySelector('#roomData img').src = room.image;
         //listar reservas da sala, se houver
@@ -22,6 +23,7 @@
         document.getElementById('roomCapacity').textContent = '';
         document.getElementById('roomDescription').textContent = '';
         // document.querySelector('#roomData img').src = 'assets/roomimage.png'; // Reset to default image
+        document.getElementById("roomName").style.backgroundColor = "#FFFFFF";
     }
 
     function gotoRoomCalendar(roomId) {
@@ -60,6 +62,8 @@
             polygon.setAttribute('data-room-id', room.id);
             polygon.style.cursor = "pointer";
             polygon.style.pointerEvents = "all";
+            // polygon.style.fill = room.color;
+            // polygon.style.stroke = room.color;
             
             console.log(`roomData: ${room.name}, ${room.description}`);
             polygon.addEventListener('mouseenter', () => showRoomData(room));
