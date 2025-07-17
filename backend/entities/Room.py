@@ -32,7 +32,7 @@ class Room(Entity):
         if self.location: dict_repr["location"] = self.location
         if self.reserves: dict_repr["reserves"] = [reserve.toDict() for reserve in self.reserves]
         if self.issues: dict_repr["issues"] = [issue.toDict() for issue in self.issues]
-        print(dict_repr)
+        # print(dict_repr)
         return dict_repr
     
     @classmethod
