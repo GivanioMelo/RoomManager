@@ -63,8 +63,8 @@ class ReserveRepository(BaseRepository[Reserve]):
 		AND (
 			(startDate >= '{start}' AND endDate <= '{end}') OR 
 			(startDate <= '{start}' AND endDate >= '{end}') OR 
-			(startDate <= '{start}' AND endDate >= '{start}' AND endDate <= '{end}') OR 
-			(startDate >= '{start}' AND startDate <= '{end}' AND endDate >= '{end}')
+			(startDate <= '{start}' AND endDate > '{start}' AND endDate <= '{end}') OR 
+			(startDate >= '{start}' AND startDate < '{end}' AND endDate >= '{end}')
 		);
 		"""
 		result = self.executeQuery(query)

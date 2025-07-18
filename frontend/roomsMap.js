@@ -6,7 +6,14 @@
         document.getElementById('roomCapacity').textContent = room.capacity;
         document.getElementById('roomDescription').textContent = room.description;
         document.getElementById("roomName").style.backgroundColor = room.color;
-        document.querySelector('#roomData img').src = `assets/roomimage.png`; // Reset to default image
+        roomImage = document.querySelector('#roomData img');
+        roomImage.addEventListener("error",loadDefaultImage);
+        roomImage.src = `assets/${room.id}.png`; // Reset to default image
+    }
+
+    function loadDefaultImage(event){
+        event.target.error = null;
+        event.target.src = "assets/roomimage.png";
     }
 
     function clearRoomData() {
@@ -20,7 +27,7 @@
 
     function gotoRoomCalendar(roomId) {
         localStorage.setItem("roomId", roomId);
-        window.location.href = `roomDetails.html?room=${roomId}`;
+        window.location.href = `roomDetails.html`;
     }
 
     function pageLoad() {

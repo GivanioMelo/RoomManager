@@ -10,16 +10,23 @@
     <link rel="stylesheet" href="roomDetails.css">
 </head>
 <body onload="pageLoad()">
-    <h1>Welcome to the Dashboard</h1>
-    <p>This is the dashboard page where you can view your data and statistics.</p>
-    
-    <select name="room" id="roomSelect">
-        <option value="room1">Room 1</option>
-        <option value="room2">Room 2</option>
-        <option value="room3">Room 3</option>
-        <option value="room4">Room 4</option>
-        <option value="room5">Room 5</option>
-    </select>
+    <main>
+<div id="roomData">
+        <h1>[room_name]</h1>
+        <h3>Capacidade</h3>
+        <p>[room_capacity]</p>
+        <h3>Descrição</h3>
+        <p>[room_long_description]</p>
+
+        <h3>Pendencias</h3>
+        <div>
+            <div class="issue">[room_issue_0]</div>
+            <div class="issue">[room_issue_1]</div>
+            <div class="issue">[room_issue_2]</div>
+            <div class="issue">[room_issue_3]</div>
+            <div class="issue">[room_issue_4]</div>
+        </div>
+    </div>
 
     <div id="calendar">
         <div class="calendar-header">
@@ -28,7 +35,7 @@
             <input type="hidden" id="currentYear" value="2025">
             <span id="currentMonthDisplay">January 2025</span>
             <button id="nextMonth" onclick="nextMonth()">Next</button>
-        </div>
+        </div>        
         <div class="calendar-grid" id="calendarGrid">
             <div class="WeekDayHeader">Sun</div>
             <div class="WeekDayHeader">Mon</div>
@@ -39,6 +46,9 @@
             <div class="WeekDayHeader">Sat</div>
         </div>
     </div>
+    </main>
+    
+
     <footer>
         <p>&copy; 2025 Your Company. All rights reserved.</p>
     </footer>
