@@ -4,12 +4,21 @@ reserves = [
 ];
 
 function pageLoad() {
-    // roomId = localStorage.getItem("roomId");
-    // if (!roomId) {window.location.href = "map.html"; return;}
-    // date = localStorage.getItem("selectedDate");
-    // if (!date) {window.location.href = "calendar.html"; return;}
+    let year = localStorage.getItem('currentYear');
+    let month = localStorage.getItem('currentMonth');
+    let day = localStorage.getItem('selectedDay');
+    
+    let selectedDate = Date(year,month,day);
 
-    //fetch reserves from the server
+    let roomId = localStorage.getItem("roomId");
+
+    document.getElementById("dateHeader").innerHTML = selectedDate.toLocaleString();
+    // fetch(`http://localhost:5000/api/reserves/getByRoomAndDate?roomId=${roomId}&date=${year}-${month+1}-${day}`)
+    // .then(response => response.json())
+    // .then((data) => {
+    //     reserves = data;
+    // })
+    // .catch();
 
     updateDayProgramGrid();
 }

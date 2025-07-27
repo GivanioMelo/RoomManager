@@ -1,34 +1,33 @@
     var rooms = [];
 
     function showRoomData(room) {
+        document.getElementById('roomDataContent').style.display = 'block';
         document.getElementById('roomName').textContent = room.name;
         document.getElementById('roomCapacity').textContent = room.capacity;
         document.getElementById('roomDescription').textContent = room.description;
         document.getElementById("roomName").style.backgroundColor = room.color;
-        // Se quiser trocar a imagem, pode adicionar um campo image em room e trocar aqui
-        // document.querySelector('#roomData img').src = room.image;
-        //listar reservas da sala, se houver
-        // let reservesList = room.reserves.map(reserve => 
-        //     `<li>${reserve.user} - ${reserve.date} ${reserve.time}</li>`
-        // ).join('');
-        // if (reservesList) {
-        //     document.getElementById('roomDescription').innerHTML += `<p>Reservas:</p><ul>${reservesList}</ul>`;
-        // } else {
-        //     document.getElementById('roomDescription').innerHTML += `<p>Não há reservas para esta sala.</p>`;
-        // }
+        roomImage = document.querySelector('#roomData img');
+        roomImage.addEventListener("error",loadDefaultImage);
+        roomImage.src = `assets/${room.id}.png`; // Reset to default image
+    }
+
+    function loadDefaultImage(event){
+        event.target.error = null;
+        event.target.src = "assets/roomimage.png";
     }
 
     function clearRoomData() {
+        document.getElementById('roomDataContent').style.display = 'none';
         document.getElementById('roomName').textContent = '';
         document.getElementById('roomCapacity').textContent = '';
         document.getElementById('roomDescription').textContent = '';
-        // document.querySelector('#roomData img').src = 'assets/roomimage.png'; // Reset to default image
+        document.querySelector('#roomData img').src = ""; // Reset to default image
         document.getElementById("roomName").style.backgroundColor = "#FFFFFF";
     }
 
     function gotoRoomCalendar(roomId) {
         localStorage.setItem("roomId", roomId);
-        window.location.href = "calendar.html";
+        window.location.href = `roomDetails.html`;
     }
 
     function pageLoad() {
@@ -62,8 +61,6 @@
             polygon.setAttribute('data-room-id', room.id);
             polygon.style.cursor = "pointer";
             polygon.style.pointerEvents = "all";
-            // polygon.style.fill = room.color;
-            // polygon.style.stroke = room.color;
             
             console.log(`roomData: ${room.name}, ${room.description}`);
             polygon.addEventListener('mouseenter', () => showRoomData(room));
