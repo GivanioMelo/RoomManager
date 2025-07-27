@@ -1,6 +1,7 @@
 from flask import json
 import mysql.connector
 from entities.Entity import Entity
+import os
 
 class BaseRepository[T:Entity]():
 
@@ -11,13 +12,20 @@ class BaseRepository[T:Entity]():
     dataBasePassWord:str
 
     def __init__(self):
-        config = json.load(open('database.config'))
-        self.dataBaseHostName = config.get("DB_HOST", "localhost")
-        self.dataBasePort = config.get("DB_PORT", "3307")
-        self.dataBaseName = config.get("DB_NAME", "default_db")
-        self.dataBaseUser = config.get("DB_USER", "root")
-        self.dataBasePassWord = config.get("DB_PASSWORD", "")
-
+        if os.path.exists('database.config'):
+            config = json.load(open('database.config'))
+            self.dataBaseHostName = config.get("DB_HOST", "localhost")
+            self.dataBasePort = config.get("DB_PORT", "3307")
+            self.dataBaseName = config.get("DB_NAME", "default_db")
+            self.dataBaseUser = config.get("DB_USER", "root")
+            self.dataBasePassWord = config.get("DB_PASSWORD", "")
+        else:
+            self.dataBaseHostName = "localhost"
+            self.dataBasePort = "3307"
+            self.dataBaseName = "default_db"
+            self.dataBaseUser = "DB_USER", "root"
+            self.dataBasePassWord = ""
+        
         self.tableName = T.__class__.__name__.lower() + 's'
     
     def connect(self): 
