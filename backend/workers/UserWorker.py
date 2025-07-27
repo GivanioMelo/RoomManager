@@ -16,6 +16,16 @@ class UserWorker:
         self.jwtKey = json.load(open("app.config")).get('jwt_key', 'your_super_secret_jwt_key')
         self.userRepository = UserRepository()
     
+    def __generateToken__(self, id, login, password):
+        expiration_time = datetime.now() + timedelta(hours=1)  # Token valid for 1 hour
+        token = jwt.encode(
+            {"user_id": id, "login":login,"password":password,"exp": expiration_time},  # Token valid for 1 hour
+            self.jwtKey,  # Replace with your actual secret key
+            algorithm="HS256"
+        )
+        encryptedToken = bcrypt.hashpw(token.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+        return encryptedToken
+
     def create(self,
                     name: str,
                     email: str,
@@ -73,14 +83,8 @@ class UserWorker:
         user = self.userRepository.getByCredentials(login, hashed_password)
         if not user:
             return None
-        expiration_time = datetime.now() + timedelta(hours=1)  # Token valid for 1 hour
-        token = jwt.encode(
-            {"user_id": user.id, "exp": expiration_time},  # Token valid for 1 hour
-            self.jwtKey,  # Replace with your actual secret key
-            algorithm="HS256"
-        )
-        encryptedToken = bcrypt.hashpw(token.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
-        user.token = encryptedToken
+        
+        user.token = self.__generateToken__(user.id,login,hashed_password)
         
         user.updateUserId = session.get('user_id', 1)
         user.updateDate = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -92,10 +96,10 @@ class UserWorker:
     def logout(self) -> bool:
         if 'user_id' in session:
             user_id = session['user_id']
-            user = self.userRepository.get_by_id(user_id)
+            user = self.userRepository.getById(user_id)
             if user:
-                user.jwtToken = ""
-                user.updateUser = session.get('user_id', 1)
+                user.token = ""
+                user.updateUserId = session.get('user_id', 1)
                 user.updateDate = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 self.userRepository.update(user)
             session.pop('user_id', None)
